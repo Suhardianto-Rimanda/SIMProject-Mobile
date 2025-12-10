@@ -20,6 +20,7 @@ samples, guidance on mobile development, and a full API reference.
    ├─ main.dart
    ├─ models
    │  ├─ admin_dashboard_model.dart
+   │  ├─ cart_item_model.dart
    │  ├─ finance_model.dart
    │  ├─ ingredient_model.dart
    │  ├─ order_model.dart
@@ -40,13 +41,17 @@ samples, guidance on mobile development, and a full API reference.
    │  │  ├─ login_page.dart
    │  │  └─ success_splash_page.dart
    │  ├─ cashier
-   │  │  └─ home_page.dart
+   │  │  ├─ cashier_report_page.dart
+   │  │  ├─ home_page.dart
+   │  │  ├─ order_history_page.dart
+   │  │  └─ transaction_page.dart
    │  └─ kitchen
    │     └─ home_page.dart
    ├─ providers
    │  ├─ admin_provider.dart
    │  ├─ auth_provider.dart
    │  ├─ product_provider.dart
+   │  ├─ sales_provider.dart
    │  └─ staff_provider.dart
    ├─ services
    │  ├─ admin_service.dart

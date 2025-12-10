@@ -9,6 +9,7 @@ import 'providers/product_provider.dart';
 import 'providers/admin_provider.dart';
 import 'providers/staff_provider.dart';
 import 'providers/sales_provider.dart';
+import 'providers/kitchen_provider.dart';
 
 import 'pages/auth/auth_wrapper.dart';
 
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AdminProvider()),
         ChangeNotifierProvider(create: (_) => StaffProvider()),
         ChangeNotifierProvider(create: (_) => SalesProvider()),
+        ChangeNotifierProvider(create: (_) => KitchenProvider()),
       ],
       child: MaterialApp(
         title: 'SIM Project Flutter',
