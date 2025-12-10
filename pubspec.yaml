@@ -42,6 +42,7 @@ dependencies:
   fl_chart: ^1.1.1
   pdf: ^3.11.3
   printing: ^5.14.2
+  my_readme_updater: ^1.0.12
 
 dev_dependencies:
   flutter_test:
