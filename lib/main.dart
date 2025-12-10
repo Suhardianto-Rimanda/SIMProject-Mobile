@@ -6,8 +6,9 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 // Import Providers
 import 'providers/auth_provider.dart';
 import 'providers/product_provider.dart';
-import 'providers/admin_provider.dart'; // <--- WAJIB DI-IMPORT
-import 'providers/staff_provider.dart'; // <--- WAJIB DI-IMPORT (Jika ada)
+import 'providers/admin_provider.dart';
+import 'providers/staff_provider.dart';
+import 'providers/sales_provider.dart';
 
 import 'pages/auth/auth_wrapper.dart';
 
@@ -37,13 +38,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => ProductProvider()),
-
-        // --- PERBAIKAN: DAFTARKAN ADMIN PROVIDER DI SINI ---
         ChangeNotifierProvider(create: (_) => AdminProvider()),
-        // ---------------------------------------------------
-
-        // Daftarkan juga StaffProvider jika Anda menggunakannya
         ChangeNotifierProvider(create: (_) => StaffProvider()),
+        ChangeNotifierProvider(create: (_) => SalesProvider()),
       ],
       child: MaterialApp(
         title: 'SIM Project Flutter',
