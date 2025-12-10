@@ -163,20 +163,39 @@ class _FinancePageState extends State<FinancePage> {
     );
   }
 
-  // ... (Kode _selectDateRange, _showAddExpenseDialog tetap SAMA) ...
   Future<void> _selectDateRange(BuildContext context) async {
     final DateTimeRange? picked = await showDateRangePicker(
       context: context,
       firstDate: DateTime(2020),
       lastDate: DateTime(2030),
       initialDateRange: DateTimeRange(start: _startDate, end: _endDate),
+      saveText: "Terapkan",
+      cancelText: "Batal",
+      barrierColor: Colors.black54, // Latar belakang redup
       builder: (context, child) {
-        return Theme(
-          data: ThemeData.light().copyWith(
-            primaryColor: Colors.blue,
-            colorScheme: const ColorScheme.light(primary: Colors.blue),
+        // --- PERBAIKAN: SingleChildScrollView agar dialog dinamis saat keyboard muncul ---
+        return Center(
+          child: SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(
+                maxWidth: 350,
+                maxHeight: 550, // Tinggi maksimal dialog
+              ),
+              child: Material(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                clipBehavior: Clip.antiAlias,
+                child: Theme(
+                  data: ThemeData.light().copyWith(
+                    primaryColor: Colors.blue,
+                    colorScheme: const ColorScheme.light(primary: Colors.blue),
+                    dialogBackgroundColor: Colors.white,
+                  ),
+                  child: child!,
+                ),
+              ),
+            ),
           ),
-          child: child!,
         );
       },
     );
@@ -276,6 +295,19 @@ class _FinancePageState extends State<FinancePage> {
     final prov = Provider.of<AdminProvider>(context);
     final currency = NumberFormat.currency(locale: 'id_ID', symbol: 'Rp ', decimalDigits: 0);
 
+    // --- RESPONSIVE LOGIC START ---
+    final size = MediaQuery.of(context).size;
+    final isWideScreen = size.width > 600; // Tablet/Landscape threshold
+
+    // Grid: 4 kolom jika layar lebar, 2 kolom jika layar HP
+    final gridCrossAxisCount = isWideScreen ? 4 : 2;
+    // Ratio: Jika lebar, buat kartu lebih pendek agar rapi
+    final gridChildAspectRatio = isWideScreen ? 1.8 : 1.5;
+
+    // Tinggi Chart: 35% tinggi layar, tapi minimal 250px dan maksimal 450px
+    final chartHeight = (size.height * 0.35).clamp(250.0, 450.0);
+    // --- RESPONSIVE LOGIC END ---
+
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
@@ -284,7 +316,6 @@ class _FinancePageState extends State<FinancePage> {
         foregroundColor: Colors.black87,
         elevation: 0,
         actions: [
-          // TOMBOL CETAK PDF
           IconButton(
             icon: const Icon(Icons.print, color: Colors.blue),
             tooltip: "Cetak e-Statement",
@@ -328,15 +359,15 @@ class _FinancePageState extends State<FinancePage> {
               ),
               const SizedBox(height: 16),
 
-              // --- BAGIAN 1: KARTU RINGKASAN (GRID) ---
+              // --- BAGIAN 1: KARTU RINGKASAN (RESPONSIVE GRID) ---
               if (prov.profitLoss != null)
                 GridView.count(
-                  crossAxisCount: 2,
+                  crossAxisCount: gridCrossAxisCount, // Dinamis
                   crossAxisSpacing: 12,
                   mainAxisSpacing: 12,
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  childAspectRatio: 1.5,
+                  childAspectRatio: gridChildAspectRatio, // Dinamis
                   children: [
                     _buildFinanceCard("LABA BERSIH", currency.format(prov.profitLoss!.netProfit), Colors.green),
                     _buildFinanceCard("TOTAL OMSET", currency.format(prov.profitLoss!.revenue), Colors.blue),
@@ -347,11 +378,11 @@ class _FinancePageState extends State<FinancePage> {
 
               const SizedBox(height: 24),
 
-              // --- BAGIAN 2: GRAFIK PENJUALAN ---
+              // --- BAGIAN 2: GRAFIK PENJUALAN (RESPONSIVE HEIGHT) ---
               const Text("Tren Penjualan Harian", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               const SizedBox(height: 12),
               Container(
-                height: 300,
+                height: chartHeight, // Dinamis
                 padding: const EdgeInsets.only(right: 16, top: 24, bottom: 12),
                 decoration: BoxDecoration(
                   color: Colors.white,
