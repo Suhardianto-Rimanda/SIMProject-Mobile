@@ -37,7 +37,8 @@ samples, guidance on mobile development, and a full API reference.
    │  │  └─ user_management_page.dart
    │  ├─ auth
    │  │  ├─ auth_wrapper.dart
-   │  │  └─ login_page.dart
+   │  │  ├─ login_page.dart
+   │  │  └─ success_splash_page.dart
    │  ├─ cashier
    │  │  └─ home_page.dart
    │  └─ kitchen

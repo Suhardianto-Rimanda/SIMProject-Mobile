@@ -28,7 +28,7 @@ class _SuccessSplashPageState extends State<SuccessSplashPage> with SingleTicker
     _controller.forward();
 
     // Timer untuk pindah ke Home setelah 2 detik
-    Timer(const Duration(seconds: 2), () {
+    Timer(const Duration(seconds: 5), () {
       Provider.of<AuthProvider>(context, listen: false).completeSplash();
     });
   }
